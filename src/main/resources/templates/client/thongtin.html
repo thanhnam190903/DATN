@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="client/layout/head :: head">
+</head>
+<body>
+<div th:replace="client/layout/topbar :: topbar"></div>
+<!-- Navbar & Hero Start -->
+<div th:replace="client/layout/navbar :: navbar"></div>
+<!-- Navbar & Hero End -->
+
+<!-- Services Start -->
+<div class="container-fluid service py-5">
+    <div class="container py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3 text-center">
+                    <nav class="navbar bg-light">
+                        <div class="container-fluid">
+                            <ul class="navbar-nav">
+                                <h3 class="text-center text-danger">Tài khoản ticket</h3>
+                                <li class="nav-item border bg-danger p-2" id="thongTinChungNav">
+                                    <a class="text-white nav-link" href="#" >Thông tin chung</a>
+                                </li>
+                                <li class="nav-item border bg-danger p-2" id="chiTietTaiKhoanNav">
+                                    <a class="text-white nav-link" href="#">Chi tiết tài khoản</a>
+                                </li>
+                                <li class="nav-item border bg-danger p-2">
+                                    <a class="text-white nav-link" th:href="@{/home/lichsugiaodich}">Lịch sử giao dịch</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </nav>
+                </div>
+                <div class="col-md-8" id="thongTinChung" style="margin-top: 5px;">
+                    <h4 class="bg-dark text-center text-white p-2">Thông tin chung</h4>
+                    <div>
+                        <img class="border" src="https://www.cgv.vn/skin/frontend/cgv/default/images/bg-cgv/icon-profile-cgv.png" alt="">
+                    </div>
+                    <div>
+                        <h4>Xin chào: <span th:text="${user.username}"></span></h4>
+                        <p>Với trang này bạn sẽ quản lý được tất cả thông tin của mình.</p>
+                        <hr>
+                        <h5>Thông tin tài khoản</h5>
+                        <h6 style="margin-top: 20px;">Liên hệ <a class="btn btn-outline-primary" href="" style="margin-left: 60px;">Thay đổi</a></h6>
+                        <p>Tên : <span th:text="${user.fullName}"></span></p>
+                        <p>Email : <span th:text="${user.email}"></span></p>
+                        <p>Số điện thoại : <span th:text="${user.sdt}"></span></p>
+                    </div>
+                </div>
+                <div class="col-md-8 d-none" id="thayDoiThongTin" style="margin-top: 5px;">
+                    <h4 class="bg-dark text-center text-white p-2">Thay đổi thông tin</h4>
+                    <form method="post" id="thayDoiThongTinForm" th:object="${user1}" th:action="@{/home/submit-thongtin}">
+                        <div class="row">
+                            <div class="col">
+                                <input type="hidden" th:field="*{id}">
+                                <label>Họ và tên *</label>
+                                <input th:field="*{fullName}" type="text" class="form-control" placeholder="First name">
+                            </div>
+                            <div class="col">
+                                <label>Tên đăng nhập *</label>
+                                <input type="text" th:field="*{username}" class="form-control" placeholder="Last name">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <label>Số điện thoại *</label>
+                                <input type="text" th:field="*{sdt}" class="form-control" placeholder="First name">
+                            </div>
+                            <div class="col">
+                                <label>Địa chỉ *</label>
+                                <input type="text" th:field="*{diaChi}" class="form-control" placeholder="Last name">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <label>Địa chỉ email *</label>
+                                <input type="text" th:field="*{email}" class="form-control" readonly placeholder="First name">
+                            </div>
+                            <div class="col">
+                                <label>Mật khẩu cũ *</label>
+                                <input type="password" name="password" class="form-control" placeholder="Mật khẩu ">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <input type="checkbox" id="changePasswordCheckbox" placeholder="Last name"> Tôi muốn thay đổi mật khẩu
+                            </div>
+                        </div>
+                        <div class="row d-none" id="newPasswordFields">
+                            <div class="col">
+                                <label>Mật khẩu mới *</label>
+                                <input name="passnew" type="password" class="form-control" placeholder="">
+                            </div>
+                            <div class="col">
+                                <label>Nhập lại mật khẩu mới *</label>
+                                <input name="restpass" type="password" class="form-control" placeholder="">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <input type="submit" id="submitBtn" class="btn btn-primary" value="Thay đổi">
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div id="alertMessage" class="alert d-none"></div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+    const thongTinChungNav = document.getElementById('thongTinChungNav');
+    const chiTietTaiKhoanNav = document.getElementById('chiTietTaiKhoanNav');
+
+    const thongTinChung = document.getElementById('thongTinChung');
+    const thayDoiThongTin = document.getElementById('thayDoiThongTin');
+
+    thongTinChungNav.addEventListener('click', function() {
+        thongTinChung.classList.remove('d-none');
+        thayDoiThongTin.classList.add('d-none');
+        thongTinChungNav.classList.add('active');
+        chiTietTaiKhoanNav.classList.remove('active');
+    });
+
+    chiTietTaiKhoanNav.addEventListener('click', function() {
+        thongTinChung.classList.add('d-none');
+        thayDoiThongTin.classList.remove('d-none');
+        thongTinChungNav.classList.remove('active');
+        chiTietTaiKhoanNav.classList.add('active');
+    });
+
+    const changePasswordCheckbox = document.getElementById('changePasswordCheckbox');
+    const newPasswordFields = document.getElementById('newPasswordFields');
+
+    changePasswordCheckbox.addEventListener('change', function() {
+        if (changePasswordCheckbox.checked) {
+            newPasswordFields.classList.remove('d-none');
+        } else {
+            newPasswordFields.classList.add('d-none');
+        }
+    });
+
+    // Gọi API khi nhấn nút "Thay đổi"
+    const submitBtn = document.getElementById('submitBtn');
+    const thayDoiThongTinForm = document.getElementById('thayDoiThongTinForm');
+    const alertMessage = document.getElementById('alertMessage');
+
+    submitBtn.addEventListener('click', function(event) {
+        event.preventDefault(); // Ngăn chặn việc gửi form mặc định
+
+        const formData = new FormData(thayDoiThongTinForm);
+        fetch('/home/submit-thongtin', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => {
+            if (response.ok) {
+                return response.json(); // Nếu status là 200-299, response.ok sẽ là true
+            } else {
+                return response.text().then(text => { throw new Error(text) }); // Lấy lỗi dạng text
+            }
+        })
+        .then(data => {
+            console.log('API Response:', data); // Log toàn bộ response để kiểm tra cấu trúc
+
+            alertMessage.classList.remove('d-none', 'alert-danger');
+            alertMessage.classList.add('alert-success');
+            alertMessage.innerText = 'Thay đổi thông tin thành công.';
+            // Chuyển về "Thông tin chung"
+            thongTinChung.classList.remove('d-none');
+            thayDoiThongTin.classList.add('d-none');
+            thongTinChungNav.classList.add('active');
+            chiTietTaiKhoanNav.classList.remove('active');
+        })
+        .catch(error => {
+            console.error('API Error:', error); // Log lỗi để kiểm tra
+
+            alertMessage.classList.remove('d-none', 'alert-success');
+            alertMessage.classList.add('alert-danger');
+            alertMessage.innerText = error.message || 'Có lỗi xảy ra, vui lòng thử lại.';
+        });
+    });
+});
+
+
+</script>
+<!-- Team Start -->
+
+<!-- Footer Start -->
+<div th:replace="client/layout/footer :: footer"></div>
+<!-- Footer End -->
+
+<!-- Back to Top -->
+<a href="#" class="btn btn-primary btn-lg-square back-to-top"><i class="fa fa-arrow-up"></i></a>
+
+<!-- JavaScript Libraries -->
+<div th:replace="client/layout/script :: script"></div>
+
+</body>
+
+</html>

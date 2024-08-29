@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="client/layout/head :: head">
+<!--    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>-->
+
+
+</head>
+<body>
+<div th:replace="client/layout/topbar :: topbar"></div>
+<!-- Navbar & Hero Start -->
+<div th:replace="client/layout/navbar :: navbar"></div>
+<!-- Navbar & Hero End -->
+
+<div class="container-fluid service py-5">
+    <div class="container py-5">
+        <div class="section-title mb-5 wow fadeInUp" data-wow-delay="0.2s">
+            <div class="sub-style">
+                <h1 class="sub-title px-3 mb-0">Đặt vé</h1>
+            </div>
+        </div>
+        <div class="row g-4 justify-content-center">
+            <form th:action="@{/home/chonghe}" method="post">
+                <!-- Các phần khác của form -->
+                <div class="form-group">
+                    <h6>Chọn ngày</h6>
+                    <hr>
+                    <ul class="navbar nav-booking" style="list-style-type: none; justify-content: unset !important">
+                        <li th:each="ngayChieu, index : ${dates}"
+                            th:value="${#dates.format(ngayChieu, 'dd-MM-yyyy')}"
+                            th:text="${#dates.format(ngayChieu, 'dd-MM-yyyy')}"
+                            th:id="'date-' + ${#dates.format(ngayChieu, 'yyyy-MM-dd')}"
+                            th:data-ngay="${#dates.format(ngayChieu, 'yyyy-MM-dd')}"
+                            class="nav-item border item-booking ngay" style="padding: 12px 10px;"
+                            onclick="selectOption(this, 'ngay')">
+                        </li>
+                    </ul>
+                </div>
+                <div class="form-group">
+                    <h6>Chọn địa chỉ</h6>
+                    <hr>
+                    <ul class="navbar nav-booking" style="list-style-type: none; justify-content: unset !important">
+                        <li th:each="diaChi : ${raps}" class="nav-item border item-booking diaChi" th:name="diaChi" style="padding: 12px 10px;" onclick="selectOption(this, 'diaChi')">
+                            <a href="javascript:void(0)"><span th:text="${diaChi}">Địa chỉ rạp</span></a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="form-group">
+                    <h6>Chọn loại phòng</h6>
+                    <hr>
+                    <ul class="navbar nav-booking" style="list-style-type: none; justify-content: unset !important">
+                        <li th:each="lp : ${loaiPhong}" class="nav-item border item-booking loaiPhong" style="padding: 12px 10px;" onclick="selectOption(this, 'loaiPhong')">
+                            <a href="javascript:void(0)"><span th:text="${lp}"></span></a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="form-group">
+                    <h6>Chọn giờ chiếu và rạp</h6>
+                    <hr>
+                    <div id="giochieus-list"></div>
+                </div>
+                <!-- Hidden inputs to store selected values -->
+                <input type="hidden" id="selected-phim-id" name="phimId" th:value="${phim.id}">
+                <input type="hidden" id="selected-ngay-chieu" name="ngayChieu">
+                <input type="hidden" id="selected-dia-chi" name="diaChi">
+                <input type="hidden" id="selected-loai-phong" name="loaiPhong">
+                <input type="hidden" id="selected-gio-chieu" name="gioChieu">
+                <div class="form-group">
+                    <hr>
+                    <button class="btn btn-primary" type="submit">Chọn ghế</button>
+                    <a class="btn btn-info" th:href="@{/home}">Thoát</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<div th:replace="client/layout/footer :: footer"></div>
+<!-- Footer End -->
+
+<!-- Back to Top -->
+<a href="#" class="btn btn-primary btn-lg-square back-to-top"><i class="fa fa-arrow-up"></i></a>
+
+<!-- JavaScript Libraries -->
+<div th:replace="client/layout/script :: script"></div>
+
+
+</body>
+
+</html>

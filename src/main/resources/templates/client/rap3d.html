@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="client/layout/head :: head">
+
+</head>
+<body>
+<div th:replace="client/layout/topbar :: topbar"></div>
+<!-- Navbar & Hero Start -->
+<div th:replace="client/layout/navbar :: navbar"></div>
+
+<div class="container-fluid service py-5">
+    <div class="container py-5">
+        <div class="row">
+            <div class="col-md-12">
+                <h1 class="text-center font-arial" style="font-weight: bold;">Rạp 3D</h1>
+                <div class="row p-3">
+                    <div class="col-md-12">
+                        <p class="d-flex" style="font-size: 30px; font-weight: bold; color: black;">CÔNG NGHỆ 3D</p>
+                        <p class="font-weight-light">Những hình ảnh được tạo nên một cách sống động, đẹp đẽ dần thu hẹp khoảng cách giữa thật và giả, khiến khán giả có cảm giác như mình trở thành một phần của bộ phim.</p>
+                    </div>
+                    <div class="container-fluid position-relative p-0" th:fragment="carousel-rap3d">
+                        <div id="carouselRap3D" class="carousel slide" data-bs-ride="carousel">
+                            <div class="carousel-inner">
+                                <div class="carousel-item active smooth-scroll">
+                                    <img src="https://vnpay.vn/s1/statics.vnpay.vn/2023/6/07ooopp33111686653294576.jpg" class="img-size-rap3d img-fluid d-block w-100" alt="...">
+                                    <div class="img-caption-left">
+                                        <h4 class="text-white text-center mb-4 font-arial">Trải nghiệm hình ảnh sống động và chân thực</h4>
+                                        <p class="text-white">Phim 3D mang đến cho khán giả cảm giác như đang hòa mình vào thế giới trong phim. Các cảnh hành động, phiêu lưu hoặc kinh dị có chiều sâu và độ chi tiết cao giúp hình ảnh trở nên sống động và chân thực, mang lại cảm giác mới lạ và kích thích mạnh mẽ.</p>
+                                    </div>
+                                </div>
+                                <div class="carousel-item smooth-scroll">
+                                    <img src="https://toplistsaigon.com/wp-content/uploads/2019/09/rap-chieu-phim-3d-o-sai-gon-6.jpg" class="img-size-rap3d img-fluid d-block w-100" alt="...">
+                                    <div class="img-caption-left">
+                                        <h4 class="text-white text-center mb-4 font-arial">Hệ thống âm thanh chuyên nghiệp</h4>
+                                        <p class="text-white">Công nghệ âm thanh vòm được sử dụng để tạo ra môi trường âm thanh đa chiều, giúp khán giả cảm nhận được âm thanh từ nhiều hướng khác nhau. Sự kết hợp giữa âm thanh và hình ảnh 3D tạo ra một không gian sống động và chân thực, nâng cao trải nghiệm xem phim một cách toàn diện.</p>
+                                    </div>
+                                </div>
+                                <div class="carousel-item smooth-scroll">
+                                    <img src="https://thegioidienanh.vn/stores/news_dataimages/2024/022024/25/12/croped/image00420240225125231.jpg?240225031733" class="img-size-rap3d img-fluid d-block w-100" alt="...">
+                                    <div class="img-caption-left">
+                                        <h4 class="text-white text-center mb-4 font-arial">Chất lượng hình ảnh sắc nét</h4>
+                                        <p class="text-white">Công nghệ 3D hiện đại cho phép hiển thị chi tiết rõ ràng, với màu sắc tươi sáng và độ tương phản cao, làm nổi bật từng chi tiết nhỏ nhất trong cảnh quay.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="carousel-control-prev" type="button" data-bs-target="#carouselRap3D" data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Previous</span>
+                            </button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#carouselRap3D" data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Next</span>
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Footer Start -->
+<div th:replace="client/layout/footer :: footer"></div>
+<!-- Footer End -->
+
+<!-- Back to Top -->
+<a href="#" class="btn btn-primary btn-lg-square back-to-top"><i class="fa fa-arrow-up"></i></a>
+
+<!-- JavaScript Libraries -->
+<div th:replace="client/layout/script :: script"></div>
+</body>
+</html>

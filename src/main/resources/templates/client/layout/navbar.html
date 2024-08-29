@@ -1,0 +1,36 @@
+<div class="container-fluid position-relative p-0" th:fragment="navbar" th:classappend="${#authorization.expression('isAuthenticated()')} ? 'responsive-auth' : ''">
+    <nav class="navbar navbar-expand-lg navbar-light bg-white px-4 px-lg-5 py-3 py-lg-0 width-navbar" id="navbar" style="position: fixed; top: 45px; z-index: 999; transition: top 0.3s;">
+        <a th:href="@{/home}" class="navbar-brand p-0">
+            <h1 class="text-primary m-0"><i class="fas fa-ticket-alt me-3"></i>Ticket</h1>
+            <!-- <img src="img/logo.png" alt="Logo"> -->
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+            <span class="fa fa-bars"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <div class="navbar-nav ms-auto py-0">
+                <div class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Phim</a>
+                    <div class="dropdown-menu m-0">
+                        <a th:href="@{/home/phimdangchieu}" class="dropdown-item">Phim đang chiếu</a>
+                        <a th:href="@{/home/phimsapchieu}" class="dropdown-item">Phim sắp chiếu</a>
+                    </div>
+                </div>
+                <div class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Rạp ticket</a>
+                    <div class="dropdown-menu m-0">
+                        <a th:href="@{/home/tatcarap}" class="dropdown-item">Tất cả các rạp</a>
+                        <a th:href="@{/home/rapdacbiet}" class="dropdown-item">Rạp đặc biệt</a>
+                        <a th:href="@{/home/rap-3d}" class="dropdown-item">Rạp 3D</a>
+                    </div>
+                </div>
+                <div class="nav-item dropdown">
+                    <a th:href="@{/home/thongtincanhan}" class="nav-link">Tài khoản</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <!-- Carousel Start -->
+
+    <!-- Carousel End -->
+</div>

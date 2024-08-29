@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="client/layout/head :: head">
+    <meta name="google" content="notranslate">
+</head>
+<body th:classappend="${#authorization.expression('isAuthenticated()')} ? 'responsive-auth' : ''">
+<div th:replace="client/layout/topbar :: topbar"></div>
+<!-- Navbar & Hero Start -->
+<div th:replace="client/layout/navbar :: navbar"></div>
+<div th:replace="client/layout/carousel :: carousel"></div>
+<!-- Navbar & Hero End -->
+
+<!-- Services Start -->
+<div class="container-fluid service py-5">
+    <div class="container py-5">
+        <div class="section-title mb-5 wow fadeInUp" data-wow-delay="0.2s">
+            <div class="sub-style">
+                <h1 class="sub-title px-3 mb-0">MOVIE SELECTION</h1>
+            </div>
+        </div>
+        <div class="row g-4 justify-content-center max-width-movie mx-movie">
+            <div class="col-md-6 col-lg-4 col-xl-3 wow fadeInUp" data-wow-delay="0.1s" th:each="phim : ${phims}">
+                <div class="service-item rounded">
+                    <div class="service-img rounded-top">
+                        <img th:src="@{'../uploads/'+${phim.anh}}" width="296px" height="418px" class="rounded-top" alt="">
+                    </div>
+                    <div class="service-content rounded-bottom bg-light p-4">
+                        <div class="service-content-inner" >
+                            <h5 class="tieude" th:text="${phim.tenPhim}"></h5>
+                            <div style="display: flex; justify-content: space-between;">
+                                <a href="#" th:href="@{'/home/'+${phim.tenPhim}}" class="btn btn-primary rounded-pill text-white py-2 px-4 mb-2 me-3">Xem chi tiết</a>
+                                <a class="btn btn-primary rounded-pill text-white py-2 px-4 mb-2" th:href="@{/showloginpage}" th:unless="${#authorization.expression('isAuthenticated()')}">Mua vé</a>
+                                <a class="btn btn-primary rounded-pill text-white py-2 px-4 mb-2" th:href="@{/home/datve(id=${phim.id})}" sec:authorize="hasAnyRole('ADMIN','USER')"  >Mua vé</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Team Start -->
+<div class="container-fluid team py-5">
+    <div class="container py-5">
+        <div class="section-title mb-5 wow fadeInUp" data-wow-delay="0.1s">
+            <div class="sub-style">
+                <h1 class="sub-title px-3 mb-0">EVENT</h1>
+            </div>
+        </div>
+        <div class="container-fluid position-relative p-0">
+            <div id="carouselEventDesktop" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                    <div class="carousel-item active smooth-scroll">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <a href="#" title="Mở ví VNPAY, rinh ngay voucher giảm giá vé tới 30%">
+                                    <img src="https://static.vivnpay.vn/202406181518/Flashsale-xem-phim-30k-1_1120266337870233600.jpg" class="card-img-top zoom rounded img-size-event" alt="Mở ví VNPAY, rinh ngay voucher giảm giá vé tới 30%">
+                                </a>
+                            </div>
+                            <div class="col-md-3">
+                                <a href="#" title="Ưu đãi tới 30.000 đồng khi đặt vé trên ví VNPAY">
+                                    <img src="https://static.vivnpay.vn/202405281616/me-phim-cho-bo-lo-uu-dai-toi-30000-dong-khi-dat-ve-tren-vi-vnpay-1_1112670700345573376.jpg" class="card-img-top zoom rounded img-size-event" alt="Ưu đãi tới 30.000 đồng khi đặt vé trên ví VNPAY">
+                                </a>
+                            </div>
+                            <div class="col-md-3">
+                                <a href="#" title="KHUYẾN MÃI CỰC SỐC: VÉ PHIM 9.000Đ ĐANG CHỜ BẠN">
+                                    <img src="https://simg.zalopay.com.vn/zlp-website/assets/Movie_Check_in_Movie_Mini_app_Voucher_2_1_dd44108938.jpg" class="card-img-top zoom rounded img-size-event" alt="KHUYẾN MÃI CỰC SỐC: VÉ PHIM 9.000Đ ĐANG CHỜ BẠN">
+                                </a>
+                            </div>
+                            <div class="col-md-3">
+                                <a href="#" title="Bạn mới MOMO nhận vé xem phim chỉ 9K!">
+                                    <img src="https://homepage.momocdn.net/img/momo-upload-api-230817091710-638278606301704564.jpg" class="card-img-top zoom rounded img-size-event" alt="Bạn mới MOMO nhận vé xem phim chỉ 9K!">
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="carousel-item smooth-scroll">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <a href="#" title="Xem phim thả ga, tiết kiệm tới 150.000 đồng khi đặt vé xem phim trên ứng dụng Agribank E-Mobile Banking">
+                                    <img src="https://www.agribank.com.vn/wcm/connect/a9bf45bf-1d84-43f3-9772-20bfdeeb3944/1/4.jpg?MOD=AJPERES" class="card-img-top zoom rounded img-size-event" alt="Xem phim thả ga, tiết kiệm tới 150.000 đồng khi đặt vé xem phim trên ứng dụng Agribank E-Mobile Banking">
+                                </a>
+                            </div>
+                            <div class="col-md-3">
+                                <a href="#" title="Lướt thẻ OCB – Xem phim bom tấn – Giá hot bỏng tay">
+                                    <img src="https://webocb-api.ocb.com.vn/Resources/Images/20230512104105_cgv-x-ocb-trang-chu-website-top-banner-muc-uu-dai-740x490.jpg" class="card-img-top zoom rounded img-size-event" alt="Lướt thẻ OCB – Xem phim bom tấn – Giá hot bỏng tay">
+                                </a>
+                            </div>
+                            <div class="col-md-3">
+                                <a href="#" title="Giảm ngay 40% giá vé cho “bạn mới”, “bạn thân” tiết kiệm 40% khi xem phim mỗi tuần">
+                                    <img src="https://www.baovietbank.vn/media/THTT/TinTuc_2024/chao-nam-moi-baoviet-smart-tung-loat-uu-dai-ve-xem-phim-cuc-da-800x600.jpg" class="card-img-top zoom rounded img-size-event" alt="Giảm ngay 40% giá vé cho “bạn mới”, “bạn thân” tiết kiệm 40% khi xem phim mỗi tuần">
+                                </a>
+                            </div>
+                            <div class="col-md-3">
+                                <a href="#" title="GIẢM TỚI 50K KHI ĐẶT VÉ XEM PHIM TRÊN ỨNG DỤNG VCB DIGIBANK">
+                                    <img src="https://portal.vietcombank.com.vn/content/News/PublishingImages/1.Anh%20Cu/Nam%202020/Khuyenmai_2020/202010_Khuyenmai/20201023_MKTBL_Giam50Kdatvexemphim_Bai.jpg?RenditionID=14" class="card-img-top zoom rounded img-size-event" alt="GIẢM TỚI 50K KHI ĐẶT VÉ XEM PHIM TRÊN ỨNG DỤNG VCB DIGIBANK">
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselEventDesktop" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselEventDesktop" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+        </div>
+        <div class="container-fluid position-relative p-0">
+            <div id="carouselEventMobile" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                    <div class="carousel-item active smooth-scroll">
+                        <a href="#" title="Mở ví VNPAY, rinh ngay voucher giảm giá vé tới 30%">
+                            <img src="https://static.vivnpay.vn/202406181518/Flashsale-xem-phim-30k-1_1120266337870233600.jpg" class="card-img-top zoom rounded img-carousel-event-mobile" alt="Mở ví VNPAY, rinh ngay voucher giảm giá vé tới 30%">
+                        </a>
+                    </div>
+                    <div class="carousel-item smooth-scroll">
+                        <a href="#" title="Ưu đãi tới 30.000 đồng khi đặt vé trên ví VNPAY">
+                            <img src="https://static.vivnpay.vn/202405281616/me-phim-cho-bo-lo-uu-dai-toi-30000-dong-khi-dat-ve-tren-vi-vnpay-1_1112670700345573376.jpg" class="card-img-top zoom rounded img-carousel-event-mobile" alt="Ưu đãi tới 30.000 đồng khi đặt vé trên ví VNPAY">
+                        </a>
+                    </div>
+                    <div class="carousel-item smooth-scroll">
+                        <a href="#" title="KHUYẾN MÃI CỰC SỐC: VÉ PHIM 9.000Đ ĐANG CHỜ BẠN">
+                            <img src="https://simg.zalopay.com.vn/zlp-website/assets/Movie_Check_in_Movie_Mini_app_Voucher_2_1_dd44108938.jpg" class="card-img-top zoom rounded img-carousel-event-mobile" alt="KHUYẾN MÃI CỰC SỐC: VÉ PHIM 9.000Đ ĐANG CHỜ BẠN">
+                        </a>
+                    </div>
+                    <div class="carousel-item smooth-scroll">
+                        <a href="#" title="Bạn mới MOMO nhận vé xem phim chỉ 9K!">
+                            <img src="https://homepage.momocdn.net/img/momo-upload-api-230817091710-638278606301704564.jpg" class="card-img-top zoom rounded img-carousel-event-mobile" alt="Bạn mới MOMO nhận vé xem phim chỉ 9K!">
+                        </a>
+                    </div>
+                    <div class="carousel-item smooth-scroll">
+                        <a href="#" title="Xem phim thả ga, tiết kiệm tới 150.000 đồng khi đặt vé xem phim trên ứng dụng Agribank E-Mobile Banking">
+                            <img src="https://www.agribank.com.vn/wcm/connect/a9bf45bf-1d84-43f3-9772-20bfdeeb3944/1/4.jpg?MOD=AJPERES" class="card-img-top zoom rounded img-carousel-event-mobile" alt="Xem phim thả ga, tiết kiệm tới 150.000 đồng khi đặt vé xem phim trên ứng dụng Agribank E-Mobile Banking">
+                        </a>
+                    </div>
+                    <div class="carousel-item smooth-scroll">
+                        <a href="#" title="Lướt thẻ OCB – Xem phim bom tấn – Giá hot bỏng tay">
+                            <img src="https://webocb-api.ocb.com.vn/Resources/Images/20230512104105_cgv-x-ocb-trang-chu-website-top-banner-muc-uu-dai-740x490.jpg" class="card-img-top zoom rounded img-carousel-event-mobile" alt="Lướt thẻ OCB – Xem phim bom tấn – Giá hot bỏng tay">
+                        </a>
+                    </div>
+                    <div class="carousel-item smooth-scroll">
+                        <a href="#" title="Giảm ngay 40% giá vé cho “bạn mới”, “bạn thân” tiết kiệm 40% khi xem phim mỗi tuần">
+                            <img src="https://www.baovietbank.vn/media/THTT/TinTuc_2024/chao-nam-moi-baoviet-smart-tung-loat-uu-dai-ve-xem-phim-cuc-da-800x600.jpg" class="card-img-top zoom rounded img-carousel-event-mobile" alt="Giảm ngay 40% giá vé cho “bạn mới”, “bạn thân” tiết kiệm 40% khi xem phim mỗi tuần">
+                        </a>
+                    </div>
+                    <div class="carousel-item smooth-scroll">
+                        <a href="#" title="GIẢM TỚI 50K KHI ĐẶT VÉ XEM PHIM TRÊN ỨNG DỤNG VCB DIGIBANK">
+                            <img src="https://portal.vietcombank.com.vn/content/News/PublishingImages/1.Anh%20Cu/Nam%202020/Khuyenmai_2020/202010_Khuyenmai/20201023_MKTBL_Giam50Kdatvexemphim_Bai.jpg?RenditionID=14" class="card-img-top zoom rounded img-carousel-event-mobile" alt="GIẢM TỚI 50K KHI ĐẶT VÉ XEM PHIM TRÊN ỨNG DỤNG VCB DIGIBANK">
+                        </a>
+                    </div>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselEventMobile" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselEventMobile" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Footer Start -->
+<div th:replace="client/layout/footer :: footer"></div>
+<!-- Footer End -->
+
+<!-- Back to Top -->
+<a href="#" class="btn btn-primary btn-lg-square back-to-top" style="display: none;"><i class="fa fa-arrow-up"></i></a>
+
+<!-- JavaScript Libraries -->
+<div th:replace="client/layout/script :: script"></div>
+</body>
+</html>

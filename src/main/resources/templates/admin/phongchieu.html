@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org">
+<head th:replace="admin/layout/head :: head">
+
+</head>
+<body class="hold-transition skin-blue sidebar-mini ">
+<!-- Site wrapper -->
+<div class="wrapper">
+
+    <header th:replace="admin/layout/header :: header"></header>
+    <!-- =============================================== -->
+
+    <!-- Left side column. contains the sidebar -->
+    <aside th:replace="admin/layout/aside :: aside"></aside>
+    <!-- =============================================== -->
+
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+            <h1>
+                Quản lý phòng chiếu
+
+            </h1>
+            <ol class="breadcrumb">
+                <li><a href="#" th:href="@{/quantri}"><i class="fa fa-dashboard"></i> Home</a></li>
+            </ol>
+        </section>
+
+        <!-- Main content -->
+        <section class="content">
+
+            <!-- Default box -->
+            <div class="col-xs-12">
+                <div class="box">
+                    <div class="box-header">
+                        <a href="#" th:href="@{/quantri/add-phongchieu}" class="btn btn-success">Thêm mới phòng chiếu</a>
+
+                        <div class="box-tools">
+                            <form>
+                                <div class="input-group input-group-sm" style="width: 150px;">
+                                    <input type="text" name="key" class="form-control pull-right" placeholder="Search" th:value="${key}">
+
+                                    <div class="input-group-btn">
+                                        <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body table-responsive no-padding">
+                        <table class="table table-hover">
+                            <tbody><tr>
+                                <th>Mã số phòng</th>
+                                <th>Tên phòng</th>
+                                <th>Trạng thái</th>
+                                <th>Mã số rạp</th>
+                                <th>Tên rạp</th>
+                                <th>Mã số loại phòng</th>
+                                <th>Tên loại phòng</th>
+                                <th>Tùy chọn</th>
+                            </tr>
+                            <tr th:each="phong : ${phongchieus}">
+                                <td th:text="${phong.id}"></td>
+                                <td th:text="${phong.tenPhong}"></td>
+                                <td th:if="${phong.trangThai}">hien</td>
+                                <td th:if="${!phong.trangThai}">an</td>
+                                <td th:text="${phong.rap.id}"></td>
+                                <td th:text="${phong.rap.tenRap}"></td>
+                                <td th:text="${phong.loaiPhong.id}"></td>
+                                <td th:text="${phong.loaiPhong.tenLoaiPhong}"></td>
+                                <td>
+                                    <a th:href="@{/quantri/update-phongchieu(id=${phong.id})}" class="btn btn-success">Sửa</a>
+                                    <a th:href="@{/quantri/delete-phongchieu(id=${phong.id})}" class="btn btn-danger"
+                                       onclick="return confirm('Bạn có chắc chắn muốn xóa phòng chiếu này không')">Xóa</a>
+                                </td>
+                            </tr>
+
+                            </tbody></table>
+                    </div>
+                    <!-- /.box-body -->
+                    <div class="box-footer clearfix">
+                        <!-- Phân trang -->
+                        <ul class="pagination pagination-sm no-margin pull-right">
+                            <li th:if="${currentPage > 1}">
+                                <a th:href="@{/quantri/phongchieu(page=${currentPage - 1}, key=${key})}">&laquo;</a>
+                            </li>
+                            <li th:each="pageNum : ${#numbers.sequence(currentPage > 2 ? currentPage - 2 : 1, currentPage + 2 > totalPages ? totalPages : currentPage + 2)}"
+                                th:classappend="${pageNum == currentPage} ? 'active'">
+                                <a th:href="@{/quantri/phongchieu(page=${pageNum}, key=${key})}" th:text="${pageNum}"></a>
+                            </li>
+                            <li th:if="${currentPage < totalPages}">
+                                <a th:href="@{/quantri/phongchieu(page=${currentPage + 1}, key=${key})}">&raquo;</a>
+                            </li>
+                            <li th:if="${totalPages > 5 && currentPage < totalPages - 2}">
+                                <a th:href="@{/quantri/phongchieu(page=${totalPages}, key=${key})}">&raquo;&raquo;</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!-- /.box -->
+
+            <!-- /.box -->
+
+        </section>
+        <!-- /.content -->
+    </div>
+    <!-- /.content-wrapper -->
+
+    <footer th:replace="admin/layout/footer :: footer"></footer>
+
+</div>
+<!-- ./wrapper -->
+
+<!-- jQuery 3 -->
+<div th:replace="admin/layout/script :: script"></div>
+</body>
+</html>

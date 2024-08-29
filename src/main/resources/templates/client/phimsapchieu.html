@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="client/layout/head :: head"></head>
+<body>
+<div th:replace="client/layout/topbar :: topbar"></div>
+<!-- Navbar & Hero Start -->
+<div th:replace="client/layout/navbar :: navbar"></div>
+<!-- Navbar & Hero End -->
+
+<!-- Services Start -->
+<div class="container-fluid service py-5">
+    <div class="container py-5">
+        <div class="section-title mb-5 wow fadeInUp" data-wow-delay="0.2s">
+            <div class="sub-style">
+                <h1 class="sub-title px-3 mb-0">Phim sắp chiếu</h1>
+            </div>
+        </div>
+        <div class="row g-4 justify-content-center max-width-movie mx-movie">
+            <div class="col-md-6 col-lg-4 col-xl-3 wow fadeInUp" data-wow-delay="0.1s" th:each="phim : ${phims}">
+                <div class="service-item rounded ">
+                    <div class="service-img rounded-top">
+                        <img th:src="@{'../uploads/'+${phim.anh}}" width="296px" height="418px" class=" rounded-top " alt="">
+                    </div>
+                    <div class="service-content rounded-bottom bg-light p-4">
+                        <div class="service-content-inner" >
+                            <h5 class="tieude" th:text="${phim.tenPhim}"></h5>
+                            <div style="display: flex; justify-content: space-between;">
+                                <a href="#" th:href="@{'/home/'+${phim.tenPhim}}" class="btn btn-primary rounded-pill text-white py-2 px-4 mb-2">Xem chi tiết</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Team Start -->
+
+<!-- Footer Start -->
+<div th:replace="client/layout/footer :: footer"></div>
+<!-- Footer End -->
+
+<!-- Back to Top -->
+<a href="#" class="btn btn-primary btn-lg-square back-to-top"><i class="fa fa-arrow-up"></i></a>
+
+<!-- JavaScript Libraries -->
+<div th:replace="client/layout/script :: script"></div>
+
+</body>
+
+</html>

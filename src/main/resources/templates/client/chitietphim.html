@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="client/layout/head :: head"></head>
+<body>
+<div th:replace="client/layout/topbar :: topbar"></div>
+<!-- Navbar & Hero Start -->
+<div th:replace="client/layout/navbar :: navbar"></div>
+<!-- Navbar & Hero End -->
+
+<!-- Services Start -->
+<div class="container-fluid about bg-light py-5" >
+    <div class="container py-5">
+        <div class="row g-5 align-items-center">
+            <div class="col-lg-5 wow fadeInLeft" data-wow-delay="0.2s">
+                <div class="about-img pb-5 ps-5">
+                    <img th:src="@{'../uploads/'+${phim.anh}}" class="img-fluid rounded w-100" style="object-fit: cover;" alt="Image">
+                </div>
+            </div>
+            <div class="col-lg-7 wow fadeInRight" data-wow-delay="0.4s">
+                <div class="section-title text-start mb-5 ">
+                    <h4 class="sub-title pe-3 mb-0">Nội dung phim</h4>
+                    <h1 class="display-3 mb-4" th:text="${phim.tenPhim}"> </h1>
+                    <div class="mb-4 d-flex flex-column ">
+                        <p class="text-dark">Đạo diễn : <span th:text="${phim.daoDien}"></span></p>
+                        <p class="text-dark">Diễn viên : <span th:text="${phim.dienVien}"></span></p>
+                        <p class="text-dark">Thể loại : <span  th:text="${phim.theLoai}"></span></p>
+                        <p class="text-dark">Khởi chiếu : <span th:text="${#dates.format(phim.ngayHieuLucTu, 'dd/MM/yyyy')}"></span></p>
+                        <p class="text-dark">Thời lượng : <span th:text="${phim.thoiLuong}"></span></p>
+                        <p class="text-dark">Ngôn ngữ : <span th:text="${phim.ngonNghu}"></span></p>
+                        <div class="text-center">
+                            <button type="button" id="btn-chitiet" class="btn btn-danger btn-sm rounded-pill text-white py-3 px-5 mt-3"><i class="fa-regular fa-hand-point-up fa-rotate-90"></i> Chi tiết và trailer</button>
+                        </div>
+                    </div>
+                    <a class="btn btn-primary rounded-pill text-white py-2 px-4 mb-2" th:href="@{/showloginpage}" th:unless="${#authorization.expression('isAuthenticated()')}">Mua vé</a>
+                    <a class="btn btn-primary rounded-pill text-white py-2 px-4 mb-2" th:href="@{/home/datve(id=${phim.id})}" sec:authorize="hasAnyRole('ADMIN','USER')"  >Mua vé</a>
+                </div>
+
+            </div>
+            <div id="off" class="container" style="display: none;">
+                <div class="sub-style text-center">
+                    <h3 class="sub-title px-3 mb-0">Chi tiết và trailer</h3>
+                </div>
+                <div style="margin-top: 20px;">
+                    <p class="text-dark">Nội dung : <span th:text="${phim.noiDung}"></span></p>
+                </div>
+                <div>
+                    <video  id="video"  width="570px" controls>
+                        <source th:src="@{'../uploads/' + ${phim.video}}" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
+
+                <script>
+                    $(document).ready(function(){
+                    $("#btn-chitiet").click(function(){
+                        $("#off").toggle(1000);
+                        });
+                    });
+                </script>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Team End -->
+
+<!-- Footer Start -->
+<div th:replace="client/layout/footer :: footer"></div>
+<!-- Footer End -->
+
+<!-- Back to Top -->
+<a href="#" class="btn btn-primary btn-lg-square back-to-top"><i class="fa fa-arrow-up"></i></a>
+
+<!-- JavaScript Libraries -->
+<div th:replace="client/layout/script :: script"></div>
+
+</body>
+
+</html>

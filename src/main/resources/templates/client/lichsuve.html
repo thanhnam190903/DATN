@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="client/layout/head :: head"></head>
+<body>
+<div th:replace="client/layout/topbar :: topbar"></div>
+<!-- Navbar & Hero Start -->
+<div th:replace="client/layout/navbar :: navbar"></div>
+<!-- Navbar & Hero End -->
+
+<!-- Services Start -->
+<div class="container-fluid service py-5">
+    <div class="container py-5">
+        <h3>Lịch sử đặt vé</h3>
+
+        <table class="table">
+            <tr>
+                <th>Mã hóa đơn</th>
+                <th>Tên khách hàng</th>
+                <th>Ngày lập</th>
+                <th>Giờ lập</th>
+                <th>Hình thức thanh toán</th>
+                <th>Tên phim</th>
+                <th>Số ghế</th>
+                <th>Giờ chiếu</th>
+                <th>Trạng thái</th>
+            </tr>
+            <tr>
+                <td th:text="${hoadon.id}"></td>
+                <td th:text="${hoadon.user.fullName}"></td>
+                <td th:text="${#dates.format(hoadon.ngayLap, 'dd/MM/yyyy')}"></td>
+                <td th:text="${hoadon.gioLap}"></td>
+                <td th:text="${hoadon.httt}"></td>
+                <td th:text="${hoadon.datVe.caChieu.phim.tenPhim}"></td>
+                <td th:text="${hoadon.tongTien}"></td>
+                <td th:text="${hoadon.datVe.caChieu.gioChieu}"></td>
+                <td th:if="${hoadon.trangThai}">Thành công</td>
+                <td th:if="${!hoadon.trangThai}">Hàng chờ</td>
+        </table>
+        <p>Lưu ý : trạng thái của đơn hàng sẽ dc quản trị thay đổi và thông báo đến bạn qua email</p>
+        <p><a th:href="@{/home/lichsugiaodich}">Lịch sử đặt vé </a></p>
+        <p>Có gì thắc mắc xin liên hệ <a th:href="@{/home/lienhe}">với chúng tôi</a></p>
+        <p>Quay về <a th:href="@{/home}">trang chủ</a></p>
+    </div>
+</div>
+<!-- Team Start -->
+
+<!-- Footer Start -->
+<div th:replace="client/layout/footer :: footer"></div>
+<!-- Footer End -->
+
+<!-- Back to Top -->
+<a href="#" class="btn btn-primary btn-lg-square back-to-top"><i class="fa fa-arrow-up"></i></a>
+
+<!-- JavaScript Libraries -->
+<div th:replace="client/layout/script :: script"></div>
+
+</body>
+
+</html>

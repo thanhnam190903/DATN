@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org">
+<head th:replace="admin/layout/head :: head"></head>
+<body class="hold-transition skin-blue sidebar-mini ">
+<!-- Site wrapper -->
+<div class="wrapper">
+
+    <header th:replace="admin/layout/header :: header"></header>
+    <!-- =============================================== -->
+
+    <!-- Left side column. contains the sidebar -->
+    <aside th:replace="admin/layout/aside :: aside"></aside>
+    <!-- =============================================== -->
+
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <div class="container">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <h1>
+                    Quản lý phim
+
+                </h1>
+            </section>
+
+            <!-- Main content -->
+            <section class="content">
+
+                <!-- Default box -->
+                <div class="col-md-6 ">
+                    <!-- general form elements -->
+                    <div class="box box-primary ">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">Thêm mới phim</h3>
+                        </div>
+                        <!-- /.box-header -->
+                        <!-- form start -->
+                        <form action="#" th:action="@{/quantri/add-ph}" th:object="${phim}" method="post" enctype="multipart/form-data">
+                            <div class="box-body">
+                                <div>
+                                    <span th:text="${loi}"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Tên bộ phim</label>
+                                    <input type="text" required="required" th:field="*{tenPhim}" class="form-control" id="exampleInputEmail1" placeholder="Tên bộ phim ...">
+                                </div>
+                                <div class="form-group">
+                                    <label>Đạo diễn</label>
+                                    <input type="text" required="required" th:field="*{daoDien}" class="form-control"  placeholder="Đạo diễn...">
+                                </div>
+                                <div class="form-group">
+                                    <label>Diễn viên</label>
+                                    <input type="text" required="required" th:field="*{dienVien}" class="form-control"  placeholder="Diễn viên...">
+                                </div>
+                                <div class="form-group">
+                                    <label>Mô tả phim</label>
+                                    <textarea required="required" style="width: 405px;height: 65px;" th:field="*{noiDung}" placeholder="Mô tả ...">
+                                    </textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label>Thời lượng phim</label>
+                                    <input type="text" required="required" th:field="*{thoiLuong}" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label>Ngôn nghữ</label>
+                                    <input type="text" required="required" th:field="*{ngonNghu}" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label>Trailer phim</label>
+                                    <input type="file" required="required" name="fileVideo" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label>Banner phim</label>
+                                    <input type="file" required="required" name="fileImage" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label>Ngày hiệu lực từ</label>
+                                    <input type="date" required="required" th:field="*{ngayHieuLucTu}" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label>Ngày hiệu lực đến</label>
+                                    <input type="date" required="required" th:field="*{ngayHieuLucDen}" class="form-control">
+                                </div>
+                                <div class="form-group form-check">
+                                    <label>Thể loại phim</label>
+                                    <input type="text" class="form-control" required="required"  th:field="*{theLoai}">
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Chọn trạng thái</label>
+                                    <div class="radio">
+                                        <label>
+                                            <input type="radio" th:field="*{trangThai}" th:value="true" name="trangthai"  value="" >Hiện
+                                        </label>
+                                        <label>
+                                            <input type="radio" th:field="*{trangThai}" th:value="false" name="trangthai"  value="" >Ẩn
+                                        </label>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <!-- /.box-body -->
+
+                            <div class="box-footer">
+                                <button type="submit" class="btn btn-primary">Thêm mới</button>
+                                <a th:href="@{/quantri/phim}" class="btn btn-light">Thoát</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- /.box -->
+                <!-- /.box -->
+
+            </section>
+        </div>
+        <!-- /.content -->
+    </div>
+    <!-- /.content-wrapper -->
+
+</div>
+<!-- ./wrapper -->
+<!-- jQuery 3 -->
+<div th:replace="admin/layout/script :: script"></div>
+</body>
+</html>

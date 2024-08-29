@@ -1,0 +1,25 @@
+<div class="container-fluid bg-dark px-5" th:fragment="topbar" style="position: fixed; top: 0; z-index: 1000; transition: top 0.3s;" id="topbar">
+    <div class="row gx-0 align-items-center" style="height: 45px;" th:classappend="${#authorization.expression('isAuthenticated()')} ? 'responsive-auth' : ''">
+        <div class="col-lg-8 text-center text-lg-start mb-lg-0 mt-8">
+            <div class="d-flex flex-wrap">
+                <a th:href="@{/home/thongtincanhan}" class="text-light me-4" sec:authorize="hasAnyRole('ADMIN','USER')">Xin chào : <span sec:authentication="principal.username"></span> <i class="fa-solid fa-caret-down"></i></a>
+            </div>
+        </div>
+        <div class="col-lg-4 text-center text-lg-end d-flex justify-content-end mt-38">
+            <div class="d-flex align-items-center justify-content-end">
+                <a href="#" th:href="@{/showloginpage}" th:unless="${#authorization.expression('isAuthenticated()')}" class="btn btn-light border rounded-pill nav-fill me-3">Đăng nhập</a>
+                <a href="#" sec:authorize="hasAnyRole('ADMIN','USER')">
+                    <form action="#" th:action="@{/logout}" method="post">
+                        <input type="submit" value="Đăng xuất" class="btn btn-light border rounded-pill nav-fill me-3">
+                    </form>
+                </a>
+            </div>
+            <div class="btn-overlap">
+                <a href="#" id="btnVN" class="btn btn-outline-primary text-white">VN</a>
+                <a href="#" id="btnEN" class="btn btn-outline-danger text-white" onclick="translateToEnglish()">EN</a>
+            </div>
+            <!--<a href="#" class="btn btn-light text-danger nav-fill">VN</a>-->
+            <!--<a href="#" class="btn btn-light text-info nav-fill me-0">EN</a>-->
+        </div>
+    </div>
+</div>

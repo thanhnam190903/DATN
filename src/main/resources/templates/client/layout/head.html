@@ -1,0 +1,226 @@
+<head th:fragment="head">
+    <meta charset="utf-8">
+    <title>Trang chu</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="" name="keywords">
+    <meta content="" name="description">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600&family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <!-- Icon Font Stylesheet -->
+    <link rel="stylesheet" href=" https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+    <link th:href="@{../assets1/lib/animate/animate.min.css}" rel="stylesheet">
+    <link th:href="@{../assets1/lib/owlcarousel/assets/owl.carousel.min.css}" rel="stylesheet">
+
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link th:href="@{../assets1/css/bootstrap.min.css}" rel="stylesheet">
+
+    <!-- Template Stylesheet -->
+    <link th:href="@{../assets1/css/style.css}" rel="stylesheet">
+    <script th:src="@{../assets1/js/jquery-3.6.3.js}"></script>
+    <script>
+
+
+     function selectOption(element, type) {
+     console.log(111, type)
+
+    // Loại bỏ trạng thái active khỏi tất cả các ô cùng loại
+    const items = document.querySelectorAll(`.nav-item.border.item-booking.${type}`);
+    items.forEach(function(item) {
+        item.classList.remove('active');
+    });
+
+    // Thêm trạng thái active vào ô được chọn
+    element.classList.add('active');
+
+    if (type === 'ngay') {
+        const ngayChieu = element.getAttribute("data-ngay");
+        document.getElementById("selected-ngay-chieu").value = ngayChieu;
+    } else if (type === 'diaChi') {
+        const diaChi = element.textContent.trim();
+        document.getElementById("selected-dia-chi").value = diaChi;
+    } else if (type === 'loaiPhong') {
+        const loaiPhong = element.textContent.trim();
+        document.getElementById("selected-loai-phong").value = loaiPhong;
+    } else if (type === 'gioChieu') {
+        const gioChieu = element.getAttribute("data-giochieu");
+        document.getElementById("selected-gio-chieu").value = gioChieu;
+        return;
+    }
+
+    loadGioChieu();
+}
+
+
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Select the first <li> element with the specified class
+    var ngay_element = document.querySelector('li.nav-item.border.item-booking.ngay');
+    if (ngay_element) {
+        ngay_element.classList.add('active');
+        const ngayChieu = ngay_element.getAttribute("data-ngay");
+        document.getElementById("selected-ngay-chieu").value = ngayChieu;
+
+        const diachi_element = document.querySelector(`.nav-item.border.item-booking.diaChi`);
+        if(diachi_element) {
+           diachi_element.classList.add('active');
+            const diaChi = diachi_element.textContent.trim();
+            document.getElementById("selected-dia-chi").value = diaChi;
+            const phong_element = document.querySelector(`.nav-item.border.item-booking.loaiPhong`);
+            if(phong_element) {
+                phong_element.classList.add('active');
+                const loaiPhong = phong_element.textContent.trim();
+                document.getElementById("selected-loai-phong").value = loaiPhong;
+
+                loadGioChieu();
+            }
+        }
+    } else {
+        // console.error('ngay not found');
+    }
+});
+
+
+
+function loadGioChieu() {
+    const idPhim = document.getElementById("selected-phim-id").value;
+    const ngayChieu = document.getElementById("selected-ngay-chieu").value;
+    const diaChi = document.getElementById("selected-dia-chi").value;
+    const loaiPhong = document.getElementById("selected-loai-phong").value;
+    console.log(11111, ngayChieu, diaChi, loaiPhong);
+
+    if (ngayChieu && diaChi && loaiPhong) {
+        fetch(`/home/datve/loadgiochieu?idPhim=${idPhim}&ngaychieu=${ngayChieu}&diachi=${diaChi}&loaiphong=${loaiPhong}`)
+            .then(response => response.json())
+             .then(data => {
+                console.log(data); // Kiểm tra dữ liệu trả về
+
+                const gioChieuList = document.getElementById("giochieus-list");
+                gioChieuList.innerHTML = "";
+
+                if (data.length === 0) {
+                    const noScheduleMessage = document.createElement("li");
+                    noScheduleMessage.classList.add("nav-item", "border", "item-booking", "gioChieu");
+                    noScheduleMessage.style.padding = "12px 10px";
+                    noScheduleMessage.innerHTML = "<span>Không có giờ chiếu nào</span>";
+                    gioChieuList.appendChild(noScheduleMessage);
+                } else {
+                    data.forEach(item => {
+                        const li = document.createElement("li");
+                        li.classList.add("nav-item", "border", "item-booking", "gioChieu");
+                        li.style.padding = "12px 10px";
+                        li.setAttribute("data-giochieu", item.gioChieu);
+                        li.innerHTML = `<span>${item.tenRap} - ${item.gioChieu}</span>`;
+                        li.onclick = function() {
+                            selectOption(li, 'gioChieu');
+                        };
+                        gioChieuList.appendChild(li);
+                    });
+                }
+            })
+            .catch(error => console.error('Error:', error));
+    }
+}
+let firstSelectedSeatType = null;
+let totalPrice = 0;
+
+function selectSeat(element) {
+    const seatId = parseInt(element.getAttribute('data-ghe-id'));
+    const seatType = element.getAttribute('data-ghe-type');
+    const seatPrice = parseInt(element.getAttribute('data-ghe-price'));
+
+    // Xử lý việc thêm hoặc gỡ ghế
+    if (element.classList.contains('active')) {
+        element.classList.remove('active');
+        totalPrice -= seatPrice;
+    } else {
+        // Kiểm tra loại ghế
+        if (firstSelectedSeatType && firstSelectedSeatType !== seatType) {
+            alert('Chỉ được chọn ghế có loại ghế giống nhau!');
+            return;
+        }
+
+        element.classList.add('active');
+        totalPrice += seatPrice;
+
+        // Cập nhật loại ghế lần đầu
+        if (!firstSelectedSeatType) {
+            firstSelectedSeatType = seatType;
+        }
+    }
+
+    const selectedSeats = document.querySelectorAll('.seat.active');
+
+    // Kiểm tra số lượng ghế chọn
+    if (selectedSeats.length > 5) {
+        alert('Bạn không thể chọn quá 5 ghế!');
+        element.classList.remove('active');
+        totalPrice -= seatPrice;
+        return;
+    }
+
+    // Xóa thông tin loại ghế và tổng giá khi không có ghế nào được chọn
+    if (selectedSeats.length === 0) {
+        firstSelectedSeatType = null;
+        totalPrice = 0;
+    }
+
+    // Cập nhật danh sách ghế đã chọn và giá vé
+    const seatIds = Array.from(selectedSeats).map(seat => parseInt(seat.getAttribute('data-ghe-id')));
+    document.getElementById('selected-seat-id').value = JSON.stringify(seatIds);
+
+    document.getElementById('total-price').innerText = totalPrice.toLocaleString();
+}
+
+function confirmBooking(event) {
+    event.preventDefault(); // Ngăn chặn form gửi tự động
+
+    const selectedSeats = document.querySelectorAll('.seat.active');
+
+    if (selectedSeats.length === 0) {
+        alert('Vui lòng chọn ít nhất một ghế!');
+        return;
+    }
+
+    const seatIds = Array.from(selectedSeats).map(seat => parseInt(seat.getAttribute('data-ghe-id')));
+
+    fetch('/home/confirmBooking', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json', // Đảm bảo Content-Type là application/json
+        },
+        body: JSON.stringify({
+            phimId: document.querySelector('input[name="phimId"]').value,
+            ngayChieu: document.querySelector('input[name="ngayChieu"]').value,
+            diaChi: document.querySelector('input[name="diaChi"]').value,
+            loaiPhong: document.querySelector('input[name="loaiPhong"]').value,
+            gioChieu: document.querySelector('input[name="gioChieu"]').value,
+            tenPhong: document.querySelector('input[name="tenPhong"]').value,
+            selectedSeats: seatIds // Gửi mảng ghế đã chọn
+        }),
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert('Đặt vé thành công!');
+            window.location.href = `/thanhtoan?id_datve=${data.datVeId}`; // Điều hướng đến trang thanh toán
+        } else {
+            alert(data.message);
+        }
+    })
+    .catch(error => {
+        console.error('Lỗi:', error);
+        alert('Có lỗi xảy ra. Vui lòng thử lại!');
+    });
+}
+    </script>
+
+</head>

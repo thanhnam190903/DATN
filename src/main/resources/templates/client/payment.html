@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="client/layout/head :: head">
+    <script src="https://smtpjs.com/v3/smtp.js"></script>
+</head>
+<body>
+<div th:replace="client/layout/topbar :: topbar"></div>
+<!-- Navbar & Hero Start -->
+<div th:replace="client/layout/navbar :: navbar"></div>
+<!-- Navbar & Hero End -->
+<div class="container-fluid service py-5 justify-content-center">
+    <div class="container">
+     <div class="row">
+        <div class="col-md-8">
+            <h1 class="text-center">Chọn Phương Thức Thanh Toán</h1>
+            <form th:action="@{/chuyenkhoan}" method="post" th:object="${hoadon}">
+                <input type="hidden" name="amount" th:value="${tongGia}" />
+                <input type="hidden" name="selectedSeats" th:value="${danhSachGhe}" />
+                <input type="hidden" name="id_datve" th:value="${idDatVe}" />
+                <input type="hidden" name="id_hoadon" id="id_hoadon" />
+                <input type="hidden" name="paymentMethod" id="paymentMethod" />
+
+                <div class="form-group">
+                    <input type="radio" id="bankTransfer" name="paymentMethodRadio" class="from-control" value="bankTransfer" />
+                    <label for="bankTransfer">Chuyển Khoản Ngân Hàng</label>
+                    <div id="bankDetails" style="display:none;">
+                        <h2>Thanh toán vé xem phim</h2>
+                        <div>
+                            <table class="table">
+                                <tr>
+                                    <th>Phim</th>
+                                    <th>Ngày chiếu:</th>
+                                    <th>Giờ chiếu</th>
+                                    <th>Tên phòng</th>
+                                    <th>Số ghế</th>
+                                    <th>Tổng tiền</th>
+                                </tr>
+                                <tr>
+                                    <td><span th:text="${dave.caChieu.phim.tenPhim}"></span></td>
+                                    <td><span th:text="${dave.caChieu.ngayChieu.ngayChieu}"></span></td>
+                                    <td><span th:text="${dave.caChieu.gioChieu}"></span></td>
+                                    <td><span th:text="${dave.caChieu.phongChieu.tenPhong}"></span></td>
+                                    <td>
+                                        <ul>
+                                            <li th:each="ghe : ${danhSachGhe}" style="list-style-type: none;" th:text="${ghe.soGhe}"></li>
+                                        </ul>
+                                    </td>
+                                    <td><span th:text="${tongGia}"></span></td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <p>Vui lòng chuyển khoản vào thông tin tài khoản ngân hàng sau:</p>
+                                    <p><strong>Ngân Hàng:</strong> Vietcombank</p>
+                                    <p><strong>Số Tài Khoản:</strong> 123456789</p>
+                                    <p><strong>Chủ Tài Khoản:</strong> Nguyễn Văn A</p>
+                                    <p><strong>Nội Dung Chuyển Khoản:</strong> Thanh toán mã vé <span th:text="${dave.id}"></span></p>
+                                </div>
+                                <div class="col-md-6">
+                                    <img th:src="@{../uploads/bank.jpg}" width="200px" height="300px" style="margin-left: 100px;">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <input type="radio" id="vnpay" name="paymentMethodRadio" value="vnpay" />
+                    <label for="vnpay">Thanh Toán tại quầy</label>
+                    <div id="vnpayDetails" style="display:none;">
+                        <h2>Thanh toán vé xem phim</h2>
+                        <div>
+                            <table class="table">
+                                <tr>
+                                    <th>Phim</th>
+                                    <th>Ngày chiếu</th>
+                                    <th>Giờ chiếu</th>
+                                    <th>Tên phòng</th>
+                                    <th>Số ghế</th>
+                                    <th>Tổng tiền</th>
+                                </tr>
+                                <tr>
+                                    <td><span th:text="${dave.caChieu.phim.tenPhim}"></span></td>
+                                    <td><span th:text="${dave.caChieu.ngayChieu.ngayChieu}"></span></td>
+                                    <td><span th:text="${dave.caChieu.gioChieu}"></span></td>
+                                    <td><span th:text="${dave.caChieu.phongChieu.tenPhong}"></span></td>
+                                    <td>
+                                        <ul>
+                                            <li th:each="ghe : ${danhSachGhe}" th:text="${ghe.soGhe}"></li>
+                                        </ul>
+                                    </td>
+                                    <td><span th:text="${tongGia}"></span></td>
+                                </tr>
+                            </table>
+                        </div>
+                        <p>Chúng tôi sẽ gửi thông tin hóa đơn đến email của bạn trong thời gian sơ nhất</p>
+                        <p>Vui lòng hãy mang thông tin hóa đơn đến <b><span th:text="${dave.rap.tenRap}"></span></b> và thanh toán tại quầy thu ngân!</p>
+
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary" id="submitBtn">Xác Nhận Thanh Toán</button>
+                <a class="btn btn-primary" onclick="return confirm('Bạn có chắc chắn muốn thoát không!')" th:href="@{/xoa-dat-ve(id_datve=${idDatVe})}">Thoat</a>
+                <div id="loading" style="display:none;">Đang xử lý...</div>
+            </form>
+
+
+        </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js">
+</script>
+<script type="text/javascript">
+    (function(){
+       emailjs.init({
+         publicKey: "v1vUxE8cRPY0tlVAI",
+       });
+    })();
+</script>
+<script>
+    document.querySelectorAll('input[name="paymentMethodRadio"]').forEach(radio => {
+    radio.addEventListener('change', function() {
+        if (this.value === 'bankTransfer') {
+            document.getElementById('bankDetails').style.display = 'block';
+            document.getElementById('vnpayDetails').style.display = 'none';
+        } else if (this.value === 'vnpay') {
+            document.getElementById('bankDetails').style.display = 'none';
+            document.getElementById('vnpayDetails').style.display = 'block';
+        }
+        document.getElementById('paymentMethod').value = this.value;
+    });
+});
+
+document.getElementById('submitBtn').addEventListener('click', function(event) {
+    const selectedPaymentMethod = document.querySelector('input[name="paymentMethodRadio"]:checked');
+    if (selectedPaymentMethod) {
+        if (selectedPaymentMethod.value === 'bankTransfer') {
+            event.preventDefault();
+            saveAndSendEmail();
+
+        } else if (selectedPaymentMethod.value === 'vnpay') {
+            event.preventDefault();
+            saveAndSendEmail();
+        }
+    } else {
+        event.preventDefault();
+        alert('Bạn cần chọn phương thức thanh toán!');
+    }
+});
+
+    function saveAndSendEmail() {
+    const amount = document.querySelector('input[name="amount"]').value;
+    const idDatVe = document.querySelector('input[name="id_datve"]').value;
+    const paymentMethod = document.getElementById('paymentMethod').value;
+
+    document.getElementById('loading').style.display = 'block';
+    fetch('/chuyenkhoan', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: `amount=${amount}&id_datve=${idDatVe}&paymentMethod=${paymentMethod}`
+    })
+    .then(response => response.json())
+    .then(data => {
+        const hoadonId = data;
+        document.getElementById('id_hoadon').value = hoadonId;
+        if (typeof hoadonId === 'number' || typeof hoadonId === 'string') {
+            sendEmail(hoadonId);
+        } else {
+            console.error('Invalid hoadonId:', hoadonId);
+            alert('Có lỗi xảy ra, vui lòng thử lại!');
+            document.getElementById('loading').style.display = 'none';
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Có lỗi xảy ra, vui lòng thử lại!');
+        document.getElementById('loading').style.display = 'none';
+    });
+}
+
+function sendEmail(hoadonId) {
+    var params = {
+        id_hoadon: hoadonId
+    };
+    emailjs.send("service_el9917n", "template_iq9u8ik", params)
+    .then(function(res){
+        if(res.status === 200) {
+            alert('Hóa đơn đã được lưu, thông tin về vé sẽ được gửi đến bạn trong thời gian sớm nhất.');
+            window.location.href = `/home/lichsu?id_hoadon=${encodeURIComponent(hoadonId)}`;
+        } else {
+            alert('Thanh toán không thành công!');
+        }
+    })
+    .catch(function(error) {
+        console.error('EmailJS Error:', error);
+        alert('Có lỗi xảy ra khi gửi email: ' + error.text);
+    });
+}
+</script>
+<!-- Footer End -->
+
+<!-- Back to Top -->
+<a href="#" class="btn btn-primary btn-lg-square back-to-top"><i class="fa fa-arrow-up"></i></a>
+
+<!-- JavaScript Libraries -->
+<div th:replace="client/layout/script :: script"></div>
+
+</body>
+
+</html>

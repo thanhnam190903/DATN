@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="client/layout/head :: head">
+</head>
+<body>
+<div th:replace="client/layout/topbar :: topbar"></div>
+<!-- Navbar & Hero Start -->
+<div th:replace="client/layout/navbar :: navbar"></div>
+<!-- Navbar & Hero End -->
+
+<!-- Services Start -->
+<div class="container-fluid service py-5">
+    <div class="container py-5">
+        <div class="section-title mb-5 wow fadeInUp" data-wow-delay="0.2s">
+            <div class="sub-style">
+                <h1 class="sub-title px-3 mb-0">BOOKING ONLINE</h1>
+            </div>
+        </div>
+        <div class="container row border">
+            <hr style="border: 2px solid black; height: 1px; border-radius: 10px;">
+            <div class="col-md-12">
+                <img src="https://betacinemas.vn/Assets/global/img/booking/ic-screen.png" width="100%" alt="">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12 mb-8 d-flex">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th>Phim</th>
+                                    <th>Ngày chiếu</th>
+                                    <th>Địa chỉ</th>
+                                    <th>Loại phòng</th>
+                                    <th>Giờ chiếu</th>
+                                    <th>Tên phòng</th>
+                                    <th>Giá ghế</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td><span th:text="${phim.tenPhim}"></span></td>
+                                    <td><span th:text="${ngayChieu}"></span></td>
+                                    <td><span th:text="${diaChi}"></span></td>
+                                    <td><span th:text="${loaiPhong}"></span></td>
+                                    <td><span th:text="${gioChieu}"></span></td>
+                                    <td><span th:text="${tenPhong}"></span></td>
+                                    <td><span id="total-price">0</span></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h6 class="text-center">Chọn ghế</h6>
+                            <hr>
+                            <form id="bookingForm" th:action="@{/home/confirmBooking}" method="POST" onsubmit="confirmBooking(event)">
+                                <div class="d-flex flex-wrap justify-content-center">
+                                    <div class="col-md-1 mb-2" th:each="ghe : ${gheA}">
+                                        <div style="border: 2px solid #63E6BE;" class="text-center seat"
+                                             th:text="${ghe.soGhe}"
+                                             th:id="'ghe-' + ${ghe.id}"
+                                             th:data-ghe-id="${ghe.id}"
+                                             th:data-ghe-type="${ghe.loaiGhe.tenLoai}"
+                                             th:data-ghe-price="${ghe.loaiGhe.giaGhe}"
+                                             th:classappend="${ghe.trangThai ? 'bg-danger' : ''}"
+                                             onclick="selectSeat(this)">
+                                            <p th:if="${ghe.hang == 'A'}" >
+                                                <span th:text="${ghe.soGhe}"></span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="d-flex flex-wrap justify-content-center">
+                                    <div class="col-md-1 mb-2" th:each="ghe : ${gheB}">
+                                        <div style="border: 2px solid #63E6BE;" class="text-center seat"
+                                             th:text="${ghe.soGhe}"
+                                             th:id="'ghe-' + ${ghe.id}"
+                                             th:data-ghe-id="${ghe.id}"
+                                             th:data-ghe-type="${ghe.loaiGhe.tenLoai}"
+                                             th:data-ghe-price="${ghe.loaiGhe.giaGhe}"
+                                             th:classappend="${ghe.trangThai ? 'bg-danger' : ''}"
+                                             onclick="selectSeat(this)">
+                                            <p th:if="${ghe.hang == 'B'}" >
+                                                <span th:text="${ghe.soGhe}"></span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="d-flex flex-wrap justify-content-center">
+                                    <div class="col-md-1 mb-2" th:each="ghe : ${gheC}">
+                                        <div style="border: 2px solid #63E6BE;" class="text-center seat"
+                                             th:text="${ghe.soGhe}"
+                                             th:id="'ghe-' + ${ghe.id}"
+                                             th:data-ghe-id="${ghe.id}"
+                                             th:data-ghe-type="${ghe.loaiGhe.tenLoai}"
+                                             th:data-ghe-price="${ghe.loaiGhe.giaGhe}"
+                                             th:classappend="${ghe.trangThai ? 'bg-danger' : ''}"
+                                             onclick="selectSeat(this)">
+                                            <p th:if="${ghe.hang == 'C'}" >
+                                                <span th:text="${ghe.soGhe}"></span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="d-flex flex-wrap justify-content-center">
+                                    <div class="col-md-1 mb-2" th:each="ghe : ${gheD}">
+                                        <div style="border: 2px solid #63E6BE;" class="text-center seat"
+                                             th:text="${ghe.soGhe}"
+                                             th:id="'ghe-' + ${ghe.id}"
+                                             th:data-ghe-id="${ghe.id}"
+                                             th:data-ghe-type="${ghe.loaiGhe.tenLoai}"
+                                             th:data-ghe-price="${ghe.loaiGhe.giaGhe}"
+                                             th:classappend="${ghe.trangThai ? 'bg-danger' : ''}"
+                                             onclick="selectSeat(this)">
+                                            <p th:if="${ghe.hang == 'D'}" >
+                                                <span th:text="${ghe.soGhe}"></span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="d-flex flex-wrap justify-content-center">
+                                    <div class="col-md-1 mb-2" th:each="ghe : ${gheE}">
+                                        <div style="border: 2px solid #c81426;" class="text-center seat"
+                                             th:text="${ghe.soGhe}"
+                                             th:id="'ghe-' + ${ghe.id}"
+                                             th:data-ghe-id="${ghe.id}"
+                                             th:data-ghe-type="${ghe.loaiGhe.tenLoai}"
+                                             th:data-ghe-price="${ghe.loaiGhe.giaGhe}"
+                                             th:classappend="${ghe.trangThai ? 'bg-danger' : ''}"
+                                             onclick="selectSeat(this)">
+                                            <p th:if="${ghe.hang == 'E'}" >
+                                                <span th:text="${ghe.soGhe}"></span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="d-flex flex-wrap justify-content-center">
+                                    <div class="col-md-1 mb-2" th:each="ghe : ${gheF}">
+                                        <div style="border: 2px solid #c81426;" class="text-center seat"
+                                             th:text="${ghe.soGhe}"
+                                             th:id="'ghe-' + ${ghe.id}"
+                                             th:data-ghe-id="${ghe.id}"
+                                             th:data-ghe-type="${ghe.loaiGhe.tenLoai}"
+                                             th:data-ghe-price="${ghe.loaiGhe.giaGhe}"
+                                             th:classappend="${ghe.trangThai ? 'bg-danger' : ''}"
+                                             onclick="selectSeat(this)">
+                                            <p th:if="${ghe.hang == 'F'}" >
+                                                <span th:text="${ghe.soGhe}"></span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="d-flex flex-wrap justify-content-center">
+                                    <div class="col-md-1 mb-2" th:each="ghe : ${gheG}">
+                                        <div style="border: 2px solid #c81426;" class="text-center seat"
+                                             th:text="${ghe.soGhe}"
+                                             th:id="'ghe-' + ${ghe.id}"
+                                             th:data-ghe-id="${ghe.id}"
+                                             th:data-ghe-type="${ghe.loaiGhe.tenLoai}"
+                                             th:data-ghe-price="${ghe.loaiGhe.giaGhe}"
+                                             th:classappend="${ghe.trangThai ? 'bg-danger' : ''}"
+                                             onclick="selectSeat(this)">
+                                            <p th:if="${ghe.hang == 'G'}" >
+                                                <span th:text="${ghe.soGhe}"></span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="d-flex flex-wrap justify-content-center">
+                                    <div class="col-md-1 mb-2" th:each="ghe : ${gheH}">
+                                        <div style="border: 2px solid #c81426;" class="text-center seat"
+                                             th:text="${ghe.soGhe}"
+                                             th:id="'ghe-' + ${ghe.id}"
+                                             th:data-ghe-id="${ghe.id}"
+                                             th:data-ghe-type="${ghe.loaiGhe.tenLoai}"
+                                             th:data-ghe-price="${ghe.loaiGhe.giaGhe}"
+                                             th:classappend="${ghe.trangThai ? 'bg-danger' : ''}"
+                                             onclick="selectSeat(this)">
+                                            <p th:if="${ghe.hang == 'H'}" >
+                                                <span th:text="${ghe.soGhe}"></span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="d-flex flex-wrap justify-content-center">
+                                    <div class="col-md-1 mb-2" th:each="ghe : ${gheI}">
+                                        <div style="border: 2px solid #c81426;" class="text-center seat"
+                                             th:text="${ghe.soGhe}"
+                                             th:id="'ghe-' + ${ghe.id}"
+                                             th:data-ghe-id="${ghe.id}"
+                                             th:data-ghe-type="${ghe.loaiGhe.tenLoai}"
+                                             th:data-ghe-price="${ghe.loaiGhe.giaGhe}"
+                                             th:classappend="${ghe.trangThai ? 'bg-danger' : ''}"
+                                             onclick="selectSeat(this)">
+                                            <p th:if="${ghe.hang == 'I'}" >
+                                                <span th:text="${ghe.soGhe}"></span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="d-flex flex-wrap justify-content-center">
+                                    <div class="col-md-1 mb-2" th:each="ghe : ${gheJ}">
+                                        <div style="border: 2px solid #c81426;" class="text-center seat"
+                                             th:text="${ghe.soGhe}"
+                                             th:id="'ghe-' + ${ghe.id}"
+                                             th:data-ghe-id="${ghe.id}"
+                                             th:data-ghe-type="${ghe.loaiGhe.tenLoai}"
+                                             th:data-ghe-price="${ghe.loaiGhe.giaGhe}"
+                                             th:classappend="${ghe.trangThai ? 'bg-danger' : ''}"
+                                             onclick="selectSeat(this)">
+                                            <p th:if="${ghe.hang == 'J'}" >
+                                                <span th:text="${ghe.soGhe}"></span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="d-flex flex-wrap justify-content-center">
+                                    <div class="col-md-1 mb-2" th:each="ghe : ${gheK}">
+                                        <div style="border: 2px solid #c81426;" class="text-center seat"
+                                             th:text="${ghe.soGhe}"
+                                             th:id="'ghe-' + ${ghe.id}"
+                                             th:data-ghe-id="${ghe.id}"
+                                             th:data-ghe-type="${ghe.loaiGhe.tenLoai}"
+                                             th:data-ghe-price="${ghe.loaiGhe.giaGhe}"
+                                             th:classappend="${ghe.trangThai ? 'bg-danger' : ''}"
+                                             onclick="selectSeat(this)">
+                                            <p th:if="${ghe.hang == 'K'}" >
+                                                <span th:text="${ghe.soGhe}"></span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="d-flex flex-wrap justify-content-center">
+                                    <div class="col-md-1 mb-2" th:each="ghe : ${gheL}">
+                                        <div style="border: 2px solid #c81426;" class="text-center seat"
+                                             th:text="${ghe.soGhe}"
+                                             th:id="'ghe-' + ${ghe.id}"
+                                             th:data-ghe-id="${ghe.id}"
+                                             th:data-ghe-type="${ghe.loaiGhe.tenLoai}"
+                                             th:data-ghe-price="${ghe.loaiGhe.giaGhe}"
+                                             th:classappend="${ghe.trangThai ? 'bg-danger' : ''}"
+                                             onclick="selectSeat(this)">
+                                            <p th:if="${ghe.hang == 'L'}" >
+                                                <span th:text="${ghe.soGhe}"></span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="d-flex flex-wrap justify-content-center">
+                                    <div class="col-md-1 mb-2" th:each="ghe : ${gheM}">
+                                        <div style="border: 2px solid #c81426;" class="text-center seat"
+                                             th:text="${ghe.soGhe}"
+                                             th:id="'ghe-' + ${ghe.id}"
+                                             th:data-ghe-id="${ghe.id}"
+                                             th:data-ghe-type="${ghe.loaiGhe.tenLoai}"
+                                             th:data-ghe-price="${ghe.loaiGhe.giaGhe}"
+                                             th:classappend="${ghe.trangThai ? 'bg-danger' : ''}"
+                                             onclick="selectSeat(this)">
+                                            <p th:if="${ghe.hang == 'M'}" >
+                                                <span th:text="${ghe.soGhe}"></span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="d-flex flex-wrap justify-content-center">
+                                    <div class="col-md-1 mb-2" th:each="ghe : ${gheN}">
+                                        <div style="border: 2px solid black;background-color:#B197FC ;" class="text-center seat"
+                                             th:text="${ghe.soGhe}"
+                                             th:id="'ghe-' + ${ghe.id}"
+                                             th:data-ghe-id="${ghe.id}"
+                                             th:data-ghe-type="${ghe.loaiGhe.tenLoai}"
+                                             th:data-ghe-price="${ghe.loaiGhe.giaGhe}"
+                                             th:classappend="${ghe.trangThai ? 'bg-danger' : ''}"
+                                             onclick="selectSeat(this)">
+                                            <p th:if="${ghe.hang == 'N'}" >
+                                                <span th:text="${ghe.soGhe}"></span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <input type="hidden" name="phimId" th:value="${phim.id}">
+                                <input type="hidden" name="ngayChieu" th:value="${ngayChieu}">
+                                <input type="hidden" name="diaChi" th:value="${diaChi}">
+                                <input type="hidden" name="loaiPhong" th:value="${loaiPhong}">
+                                <input type="hidden" name="gioChieu" th:value="${gioChieu}">
+                                <input type="hidden" name="tenPhong" th:value="${tenPhong}">
+                                <input type="hidden" id="selected-seat-id" name="selectedSeats">
+
+                                <div class="justify-content-center d-flex">
+                                        <div class="note-ghe">
+                                            Ghế thường <i class="fa-regular fa-square" style="color: #63E6BE;"></i>
+                                        </div>
+                                        <div class="note-ghe">
+                                            Ghế víp <i class="fa-regular fa-square" style="color: #c81426;"></i>
+                                        </div>
+                                        <div class="note-ghe">
+                                            Ghế đôi <i class="fa-solid fa-square" style="color: #B197FC;"></i>
+                                        </div>
+                                        <div class="note-ghe">
+                                            Đã chọn <i class="fa-solid fa-square" style="color: #ee1153;"></i>
+                                        </div>
+                                </div>
+                                <hr>
+                                <div class="justify-content-center text-center">
+                                <button type="submit" class="btn btn-primary">Xác nhận đặt vé</button>
+                                <a class="btn btn-primary" th:href="@{/home/datve(id=${phim.id})}">Quay lại</a>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div th:replace="client/layout/footer :: footer"></div>
+<!-- Footer End -->
+
+<!-- Back to Top -->
+<a href="#" class="btn btn-primary btn-lg-square back-to-top"><i class="fa fa-arrow-up"></i></a>
+
+<!-- JavaScript Libraries -->
+<div th:replace="client/layout/script :: script"></div>
+
+</body>
+
+</html>
